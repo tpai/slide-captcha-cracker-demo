@@ -1,17 +1,9 @@
 # Slide Captcha Cracker
 
-## Installation
-
-Install dependencies
-
-```sh
-brew install graphicsmagick && yarn
-```
-
 ## Usage
 
-Launch cracker
+Install dependencies and launch cracker
 
 ```sh
-node index.js
+yarn start
 ```

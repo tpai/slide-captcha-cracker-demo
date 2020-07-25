@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "./init.sh"
+  },
   "dependencies": {
     "cookie": "^0.4.1",
     "dotenv": "^8.2.0",
