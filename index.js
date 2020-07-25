@@ -1,56 +1,18 @@
-const fs = require("fs");
-const fetch = require("isomorphic-fetch");
-const cookie = require("cookie");
-const md5 = require("md5");
+const getFirstGreenPixel = require("./parseImage");
+const { get, send } = require("./api");
 
-const map = require("./map.json");
+const start = async function() {
+  const json = await get();
 
-let JSESSIONID;
-let index;
+  const source = JSON.parse(json.data);
+  const bigImage = source.bigImage.replace(/^data:image\/\w+;base64,/, "");
 
-const calc = async function() {
-  await fetch("https://event.bn.live/api/slide/getImageVerifyCode")
-    .then(res => {
-      const cookies = cookie.parse(res.headers.get("set-cookie"));
-      JSESSIONID = cookies["JSESSIONID"];
-      return res.json();
-    })
-    .then(json => {
-      const data = JSON.parse(json.data);
-      index = md5(data.smallImage);
-    });
+  const index = await getFirstGreenPixel(bigImage, source.yHeight);
+  console.log(`answer=${index}`);
+  const result = await send(index, json.JSESSIONID);
+  console.log(result.info);
 
-  const answer = map[index] ? map[index] : Math.floor(Math.random() * 198) + 75;
-
-  console.log(`q=${index}`);
-
-  if (map[index]) {
-    console.log(`answer=${answer}`);
-  } else {
-    console.log(`predict=${answer}`);
-  }
-
-  await fetch(
-    `https://event.bn.live/api/hcFirm/updatePoll?id=89&moveLength=${answer}`,
-    {
-      headers: {
-        "content-type": "application/json",
-        cookie: `JSESSIONID=${JSESSIONID}`
-      },
-      method: "GET"
-    }
-  )
-    .then(res => res.json())
-    .then(json => {
-      if (json.status === "1") {
-        console.log(index, answer);
-        console.log(json.info);
-        map[index] = answer;
-        fs.writeFileSync("map.json", JSON.stringify(map));
-      }
-    });
-
-  return calc();
+  return start();
 };
 
-calc();
+start();

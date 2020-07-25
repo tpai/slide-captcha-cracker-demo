@@ -1,15 +1,17 @@
 # Slide Captcha Cracker
 
+## Installation
+
+Install dependencies
+
+```sh
+brew install graphicsmagick && yarn
+```
+
 ## Usage
 
-1. Create dictionary file
+Launch cracker
 
-    ```js
-    node createMap.js
-    ```
-
-1. Launch collector
-
-    ```js
-    node index.js
-    ```
+```sh
+node index.js
+```
