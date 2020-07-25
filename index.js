@@ -15,4 +15,8 @@ const start = async function() {
   return start();
 };
 
-start();
+try {
+  start();
+} catch (err) {
+  console.log(err);
+}

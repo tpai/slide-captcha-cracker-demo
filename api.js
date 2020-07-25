@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const fetch = require("isomorphic-fetch");
 const cookie = require("cookie");
 
@@ -18,16 +20,13 @@ async function get() {
 }
 
 async function send(answer, JSESSIONID) {
-  return fetch(
-    `${process.env.SEND_ANSWER_ENDPOINT}${answer}`,
-    {
-      headers: {
-        "content-type": "application/json",
-        cookie: `JSESSIONID=${JSESSIONID}`
-      },
-      method: "GET"
-    }
-  ).then(res => res.json());
+  return fetch(`${process.env.SEND_ANSWER_ENDPOINT}${answer}`, {
+    headers: {
+      "content-type": "application/json",
+      cookie: `JSESSIONID=${JSESSIONID}`
+    },
+    method: "GET"
+  }).then(res => res.json());
 }
 
 module.exports = {
