@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "./init.sh"
+    "start": "node index.js"
   },
   "dependencies": {
     "cookie": "^0.4.1",
